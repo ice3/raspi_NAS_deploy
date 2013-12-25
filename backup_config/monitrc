@@ -1,0 +1,29 @@
+ set daemon  60
+ set logfile syslog facility log_daemon
+ set mailserver localhost
+ set mail-format { from: monit@serveurdev.example.com }
+ set alert root@localhost
+
+set httpd port 2812
+    use address 127.0.0.1 # only accept connection from localhost
+    allow 0.0.0.0/0.0.0.0        # allow localhost to connect to the server and
+    allow admin:monit      # require user 'admin' with password 'monit'
+
+check process twonky with pidfile /var/run/mediaserver.pid
+    start program = "/etc/init.d/twonkyserver start"
+    stop  program = "/etc/init.d/twonkyserver stop"
+    if failed port 9000 then restart
+    if 2 restarts within 3 cycles then timeout
+
+
+check process sshd with pidfile /var/run/sshd.pid
+   start program  "/etc/init.d/sshd start"
+   stop  program  "/etc/init.d/sshd stop"
+   if failed port 22 protocol ssh then restart
+   if 5 restarts within 5 cycles then timeout
+
+
+check process smdb with pidfile /var/run/samba/smbd.pid
+   start program "/etc/init.d/samba start"
+   stop  program "/etc/init.d/samba stop"
+
