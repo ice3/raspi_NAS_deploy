@@ -13,7 +13,7 @@ def shutdown_callback(channel):
     os.system('sudo poweroff')
 
 GPIO.add_event_detect(SWITCH_PORT, GPIO.FALLING,
-                      callback=my_callback, bouncetime=300)
+                      callback=shutdown_callback, bouncetime=300)
 
 try:
     while True:
