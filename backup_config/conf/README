@@ -1,0 +1,5 @@
+# configuration files
+monitrc : /etc/monit/monitrc
+smb.comf : /etc/samba/smb.conf
+minidlna.conf : /etc/minidlna.conf
+interfaces : /etc/network/interfaces
